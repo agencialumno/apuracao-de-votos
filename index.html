@@ -40,6 +40,27 @@
   }
   .wrap { max-width: 880px; margin: 0 auto; padding: 0 0 64px; }
 
+  /* Desktop: wider canvas, more breathing room, two-column pauta list */
+  @media (min-width: 900px) {
+    .wrap { max-width: 1120px; padding: 0 0 80px; }
+    .brandbar { padding: 28px 32px 10px; }
+    .brandbar .logo-mark { height: 48px; }
+    header { padding: 20px 32px 28px; }
+    h1 { font-size: 32px; }
+    .sub { font-size: 15.5px; max-width: 68ch; }
+    .card { margin: 0 32px 20px; padding: 26px 28px; }
+    .drop-row { gap: 18px; }
+    button.run { width: auto; padding: 15px 40px; }
+    .summary-grid { gap: 14px; }
+    #pautas-container { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+    .pauta { margin-bottom: 0; }
+    .export-bar { margin-top: 22px; }
+  }
+  @media (min-width: 1300px) {
+    .wrap { max-width: 1280px; }
+    #pautas-container { grid-template-columns: 1fr 1fr 1fr; }
+  }
+
   .brandbar {
     display: flex;
     align-items: center;
