@@ -6,6 +6,7 @@
 <title>Apuração de Assembleia — Filtro de Inadimplentes</title>
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   :root {
     --ink: #1d1339;
@@ -73,6 +74,29 @@
   }
   .intro { padding: 18px 16px 6px; text-align: center; }
   .intro .sub { color: var(--muted); font-size: 14.5px; max-width: 68ch; margin: 0 auto; }
+
+  .card.pdf-cta {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--dark-deep) 100%);
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .card.pdf-cta h2 { color: #ffffff; border-bottom-color: rgba(255,255,255,0.35); }
+  .pdf-cta .sub { color: #c9c3dc; }
+  .pdf-cta-text { flex: 1; min-width: 220px; }
+  .btn-pdf {
+    background: #ffffff;
+    color: var(--dark);
+    border: none;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 13px 22px;
+    border-radius: 999px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity .12s ease;
+  }
+  .btn-pdf:hover { opacity: 0.88; }
+  .btn-pdf:disabled { opacity: 0.5; cursor: not-allowed; }
 
   .card {
     background: var(--paper-2);
@@ -294,6 +318,14 @@
       <p class="footnote" id="inad-not-found"></p>
     </div>
 
+    <div class="card pdf-cta">
+      <div class="pdf-cta-text">
+        <h2 style="margin-bottom:4px;">Relatório de conferência para a ata</h2>
+        <p class="sub" style="margin:0;">PDF com as unidades retiradas, o detalhamento dos débitos e o impacto no resultado.</p>
+      </div>
+      <button class="btn-pdf" id="btn-gerar-pdf">📄 Gerar PDF de Conferência de Votos</button>
+    </div>
+
     <div class="card">
       <h2>3. Detalhamento por pauta — todas as opções</h2>
       <div id="pautas-container"></div>
@@ -311,6 +343,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs
 
 let apuracaoText = null;
 let parsedResult = null;
+let condoNameDetected = null;
 let inadFiles = []; // acumula File objects de todos os PDFs de inadimplência enviados
 
 const fileApuracao = document.getElementById('file-apuracao');
@@ -420,18 +453,32 @@ dzInad.addEventListener('drop', e => {
 // Relatórios de inadimplência variam bastante de administradora pra administradora.
 // Testamos vários padrões de texto comuns (rótulos diferentes para bloco/torre e
 // apartamento/unidade, em qualquer ordem) e juntamos tudo que cada um encontrar.
+// Também tentamos capturar o titular e os débitos (competência/vencimento) de cada
+// unidade, quando o formato do relatório permite — usado no PDF de conferência.
 function parseInadimplentes(rawText) {
   // Normaliza espaço/indentação espúria que o PDF.js às vezes gera no início de cada linha
   const text = rawText.split(/\r?\n/).map(l => l.trim()).join('\n');
+  const lines = text.split('\n');
+
+  const set = new Map(); // key -> {bloco, apto, titular, debitos:[{competencia,vencimento}]}
+  function addUnit(bloco, apto, titular, debitos) {
+    const key = bloco + '-' + apto;
+    const existing = set.get(key);
+    if (!existing) {
+      set.set(key, { bloco, apto, titular: titular || null, debitos: debitos || [] });
+    } else {
+      if (!existing.titular && titular) existing.titular = titular;
+      if (debitos && debitos.length) existing.debitos = existing.debitos.concat(debitos);
+    }
+  }
 
   const blockWord = '(?:BLOCOS?|BLOC|BL|TORRE|EDIF[IÍ]CIOS?|EDIFICIOS?|ED|PR[EÉ]DIOS?|PREDIOS?)\\.?';
   const unitWord = '(?:APARTAMENTOS?|APTOS?|APT|AP|UNIDADES?|UNID|UND|UN)\\.?';
   const sep = '[ \\t\\-–—/.,:;()]{0,10}'; // só espaço/pontuação típica de separador, nunca atravessa linha
 
-  const set = new Map(); // key -> {bloco, apto}
-
   // Padrão A/B: bloco+apto com palavra-chave nos dois lados, em qualquer ordem
-  // (ex: "BLOCO 01 AP 0206", "Apto 206 - Bloco 1").
+  // (ex: "BLOCO 01 AP 0206", "Apto 206 - Bloco 1"). Sem titular/débitos disponíveis aqui;
+  // quando esse padrão coexistir com o formato Protel (abaixo), os débitos vêm de lá.
   const patterns = [
     { re: new RegExp(blockWord + '\\s*0*(\\d+)' + sep + unitWord + '\\s*0*(\\d+)', 'gi'), order: 'block-first' },
     { re: new RegExp(unitWord + '\\s*0*(\\d+)' + sep + blockWord + '\\s*0*(\\d+)', 'gi'), order: 'unit-first' },
@@ -442,38 +489,73 @@ function parseInadimplentes(rawText) {
       let bloco, apto;
       if (order === 'block-first') { bloco = m[1]; apto = m[2]; }
       else { apto = m[1]; bloco = m[2]; }
-      const key = bloco + '-' + apto;
-      if (!set.has(key)) set.set(key, { bloco, apto });
+      addUnit(bloco, apto, null, []);
+    }
+  }
+
+  // Padrão Protel: mesmo texto do padrão A ("BLOCO NN AP MMMM"), mas agora também
+  // varre as linhas de débito ("código vencimento valor valor") até a próxima linha "Total:".
+  {
+    const blockAptRe = /BLOCO\s+0*(\d+)\s+AP\s+0*(\d+)/gi;
+    let m;
+    while ((m = blockAptRe.exec(text)) !== null) {
+      const bloco = m[1], apto = m[2];
+      const restFrom = text.slice(m.index + m[0].length);
+      const totalIdx = restFrom.search(/\bTotal:?/i);
+      const chunk = totalIdx >= 0 ? restFrom.slice(0, totalIdx) : restFrom.slice(0, 500);
+      const debitos = [];
+      const debitoRe = /\b\d{6,}\s+(\d{2}\/\d{2}\/\d{4})/g;
+      let dm;
+      while ((dm = debitoRe.exec(chunk)) !== null) debitos.push({ competencia: null, vencimento: dm[1] });
+      if (debitos.length) addUnit(bloco, apto, null, debitos);
     }
   }
 
   // Padrão C: "APTO BLOCO - Nome" no início da linha, sem palavra-chave nenhuma
-  // (ex: "304 1 - Jefferson Oscar De Souza").
-  const reC = /^(\d{2,4})\s+(\d{1,3})\s*[-–—]\s*[A-ZÀ-Ü]/gm;
-  let mc;
-  while ((mc = reC.exec(text)) !== null) {
-    const apto = mc[1], bloco = mc[2];
-    const key = bloco + '-' + apto;
-    if (!set.has(key)) set.set(key, { bloco, apto });
+  // (ex: "304 1 - Jefferson Oscar De Souza"), seguido de uma tabela de débitos
+  // ("DD/MM/AA MM/AAAA ...") até a linha "Total".
+  {
+    const unitHeaderRe = /^(\d{2,4})\s+(\d{1,3})\s*[-–—]\s*([A-ZÀ-Üa-zà-ü0-9][^\n]*)$/;
+    const debitoLineRe = /^(\d{2}\/\d{2}\/\d{2,4})\s+(\d{2}\/\d{4})\s+/;
+    for (let i = 0; i < lines.length; i++) {
+      const hm = lines[i].match(unitHeaderRe);
+      if (!hm) continue;
+      const apto = hm[1], bloco = hm[2];
+      let titular = hm[3].split('//')[0].trim();
+      if (titular === '-' || titular === '') titular = null;
+      const debitos = [];
+      for (let j = i + 1; j < lines.length; j++) {
+        if (/^Total\b/i.test(lines[j])) break;
+        if (unitHeaderRe.test(lines[j])) break;
+        const dm = lines[j].match(debitoLineRe);
+        if (dm) debitos.push({ competencia: dm[2], vencimento: dm[1] });
+      }
+      addUnit(bloco, apto, titular, debitos);
+    }
   }
 
   // Padrão D: relatórios agrupados por bloco, onde um cabeçalho tipo "BLOCO 01 UNIDADE:"
-  // (em qualquer ordem) define o bloco corrente, e cada linha seguinte que começa com o
-  // número do apartamento e contém "mail" (do rótulo de e-mail do condômino) é uma unidade.
-  const blockHeaderRe = /(?:UNIDADE\s*:\s*)?BLOCO\s*0*(\d+)\b(?:\s*UNIDADE\s*:)?/i;
-  const unitLineRe = /^(\d{1,4})\s+\S.*mail/i;
-  let currentBloco = null;
-  for (const line of text.split('\n')) {
-    const bm = line.match(blockHeaderRe);
-    if (bm) { currentBloco = bm[1]; continue; }
-    if (currentBloco !== null) {
-      const um = line.match(unitLineRe);
-      if (um) {
-        const apto = um[1];
-        const key = currentBloco + '-' + apto;
-        if (!set.has(key)) set.set(key, { bloco: currentBloco, apto });
+  // (em qualquer ordem) define o bloco corrente; cada linha seguinte que começa com o
+  // número do apartamento e contém "mail" (do rótulo de e-mail) é uma unidade, e as
+  // linhas "Referência MM/AAAA Vencimento DD/MM/AAAA" seguintes são seus débitos.
+  {
+    const blockHeaderRe = /(?:UNIDADE\s*:\s*)?BLOCO\s*0*(\d+)\b(?:\s*UNIDADE\s*:)?/i;
+    const unitLineRe = /^(\d{1,4})\s+(.+?)\s+(?:E-?mail\b|mail\b)/i;
+    const debitoLineRe = /Refer[eê]ncia\s+(\d{2}\/\d{4})\s+Vencimento\s+(\d{2}\/\d{2}\/\d{4})/i;
+    let currentBloco = null;
+    let currentUnit = null;
+    function flush() { if (currentUnit) addUnit(currentBloco, currentUnit.apto, currentUnit.titular, currentUnit.debitos); currentUnit = null; }
+    for (const line of lines) {
+      const bm = line.match(blockHeaderRe);
+      if (bm) { flush(); currentBloco = bm[1]; continue; }
+      if (currentBloco !== null) {
+        const um = line.match(unitLineRe);
+        if (um) { flush(); currentUnit = { apto: um[1], titular: um[2].trim(), debitos: [] }; continue; }
+        const dm = line.match(debitoLineRe);
+        if (dm && currentUnit) currentUnit.debitos.push({ competencia: dm[1], vencimento: dm[2] });
       }
     }
+    flush();
   }
 
   return set;
@@ -588,8 +670,9 @@ function crossReference(pautas, inadSet) {
       for (const u of opt.units) {
         const key = u.bloco + '-' + u.apto;
         if (inadSet.has(key)) {
+          const inadRecord = inadSet.get(key);
           removedCount++;
-          removedUnits.push(u);
+          removedUnits.push({ bloco: u.bloco, apto: u.apto, titular: inadRecord.titular, debitos: inadRecord.debitos });
           foundInadKeys.add(key);
         }
       }
@@ -749,6 +832,185 @@ function renderResults(pautas, inadSet, crossInfo) {
   }
 }
 
+function detectCondoName(apuracaoText) {
+  const m = apuracaoText.match(/\n\s*([A-ZÀ-Ü0-9][A-ZÀ-Ü0-9 \-.]{8,80})\n\s*Apura[cç][aã]o de vota[cç][aã]o/i);
+  return m ? m[1].trim().replace(/\s+/g, ' ') : null;
+}
+
+// ---------- Geração do PDF de conferência de votos ----------
+// Monta, pauta a pauta, quais unidades inadimplentes tiveram voto retirado, o
+// detalhamento dos débitos constantes na relação e o impacto no resultado da votação —
+// no mesmo espírito de um relatório de auditoria manual, mas cobrindo todas as pautas.
+function buildConferenciaPdf(pautas, condoName) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+  const PAGE_W = doc.internal.pageSize.getWidth();
+  const PAGE_H = doc.internal.pageSize.getHeight();
+  const MARGIN = 15;
+  const CONTENT_W = PAGE_W - MARGIN * 2;
+  let y = MARGIN;
+
+  function ensureSpace(h) {
+    if (y + h > PAGE_H - MARGIN) { doc.addPage(); y = MARGIN; }
+  }
+  function text(str, x) { doc.text(str, x, y); }
+  function heading(str, size, gap, color) {
+    ensureSpace(size / 2 + gap + 2);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(size);
+    doc.setTextColor(color ? color[0] : 29, color ? color[1] : 19, color ? color[2] : 57);
+    text(str, MARGIN);
+    y += size / 2.2 + gap;
+    doc.setTextColor(0, 0, 0);
+  }
+  function paragraph(str, size) {
+    size = size || 10;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(size);
+    const lines = doc.splitTextToSize(str, CONTENT_W);
+    ensureSpace(lines.length * (size / 2.2));
+    doc.text(lines, MARGIN, y);
+    y += lines.length * (size / 2.2) + 2;
+  }
+  function table(headers, colWidths, rows, opts) {
+    opts = opts || {};
+    const fontSize = opts.fontSize || 8.5;
+    const lineH = fontSize / 2.4;
+    const cellPad = 1.5;
+    doc.setFontSize(fontSize);
+    function rowHeight(cells) {
+      let maxLines = 1;
+      cells.forEach((c, i) => {
+        const w = colWidths[i] - cellPad * 2;
+        const lines = doc.splitTextToSize(String(c == null ? '' : c), w);
+        maxLines = Math.max(maxLines, lines.length);
+      });
+      return maxLines * lineH + cellPad * 2;
+    }
+    function drawRow(cells, bold, fill) {
+      const h = rowHeight(cells);
+      ensureSpace(h);
+      if (fill) { doc.setFillColor(fill[0], fill[1], fill[2]); doc.rect(MARGIN, y, CONTENT_W, h, 'F'); }
+      doc.setFont('helvetica', bold ? 'bold' : 'normal');
+      let x = MARGIN;
+      cells.forEach((c, i) => {
+        const w = colWidths[i];
+        const lines = doc.splitTextToSize(String(c == null ? '' : c), w - cellPad * 2);
+        doc.text(lines, x + cellPad, y + cellPad + lineH * 0.75);
+        x += w;
+      });
+      doc.setDrawColor(220, 220, 220);
+      doc.line(MARGIN, y + h, MARGIN + CONTENT_W, y + h);
+      y += h;
+    }
+    drawRow(headers, true, [237, 233, 245]);
+    for (const r of rows) drawRow(r, false, null);
+  }
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(18);
+  doc.setTextColor(29, 19, 57);
+  text('RELATÓRIO DE CONFERÊNCIA DE VOTOS', MARGIN);
+  y += 8;
+  doc.setFontSize(12);
+  doc.setFont('helvetica', 'normal');
+  text('Unidades inadimplentes excluídas da votação — todas as pautas', MARGIN);
+  y += 7;
+  doc.setFontSize(10.5);
+  doc.setTextColor(80, 80, 80);
+  if (condoName) { text(condoName, MARGIN); y += 6; }
+  text('Gerado em ' + new Date().toLocaleString('pt-BR'), MARGIN);
+  y += 8;
+  doc.setDrawColor(180, 180, 180);
+  doc.line(MARGIN, y, PAGE_W - MARGIN, y);
+  y += 8;
+  doc.setTextColor(0, 0, 0);
+
+  const votingPautas = pautas.filter(p => !p.informative);
+  const pautasComRemocao = votingPautas.filter(p => p.removedInPauta > 0);
+
+  paragraph('Objeto do relatório: identificar, entre as unidades que registraram voto em cada pauta desta assembleia, aquelas que constavam na(s) relação(ões) de inadimplência utilizada(s), e detalhar o impacto de sua exclusão no resultado apurado.', 10);
+  paragraph(pautasComRemocao.length
+    ? pautasComRemocao.length + ' de ' + votingPautas.length + ' pauta(s) com votação tiveram ao menos um voto excluído por inadimplência. As demais não apresentaram nenhuma unidade inadimplente entre os votantes.'
+    : 'Nenhuma unidade inadimplente foi identificada entre os votantes de nenhuma pauta desta assembleia.', 10);
+  y += 2;
+
+  for (const p of votingPautas) {
+    ensureSpace(14);
+    heading('Pauta ' + p.num + ' — ' + p.title, 12.5, 3);
+
+    if (p.removedInPauta === 0) {
+      paragraph('Nenhuma unidade inadimplente identificada entre os votantes desta pauta. Total de votos: ' + p.totalClaimed + '.', 9.5);
+      y += 3;
+      continue;
+    }
+
+    heading('1. Unidades identificadas e retiradas', 10, 2, [69, 46, 134]);
+    const rows1 = [];
+    for (const opt of p.rows) {
+      for (const u of opt.removedUnits) {
+        const competencias = (u.debitos && u.debitos.length)
+          ? [...new Set(u.debitos.map(d => d.competencia).filter(Boolean))].join(', ') || '—'
+          : '—';
+        const vencimentos = (u.debitos && u.debitos.length)
+          ? u.debitos.map(d => d.vencimento).filter(Boolean).join(', ')
+          : '—';
+        rows1.push([u.bloco, u.apto, opt.name, u.titular || '—', competencias, vencimentos]);
+      }
+    }
+    table(
+      ['Bloco', 'Unidade', 'Voto', 'Titular', 'Competência(s)', 'Vencimento(s)'],
+      [14, 16, 26, 44, 40, CONTENT_W - 140],
+      rows1
+    );
+    y += 3;
+
+    heading('2. Detalhamento dos débitos constantes na relação', 10, 2, [69, 46, 134]);
+    for (const opt of p.rows) {
+      for (const u of opt.removedUnits) {
+        ensureSpace(14);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9.5);
+        text('Unidade ' + u.apto + ' – Bloco ' + u.bloco, MARGIN);
+        y += 4.2;
+        doc.setFont('helvetica', 'normal');
+        paragraph('Voto registrado: ' + opt.name + (u.titular ? '   |   Titular na relação: ' + u.titular : ''), 9);
+        const debStr = (u.debitos && u.debitos.length)
+          ? u.debitos.map(d => (d.competencia ? d.competencia + ' – ' : '') + 'venc. ' + d.vencimento).join('; ')
+          : 'não detalhado na relação de origem.';
+        paragraph('Débito(s) constante(s): ' + debStr, 9);
+        y += 1;
+      }
+    }
+    y += 2;
+
+    heading('3. Impacto no total da votação', 10, 2, [69, 46, 134]);
+    const rows3 = p.rows.map(opt => [opt.name, String(opt.qty), String(opt.removedUnits.length), String(opt.qtyNew)]);
+    rows3.push(['TOTAL', String(p.totalClaimed), String(p.removedInPauta), String(p.totalNew)]);
+    table(['Opção', 'Votos originais', 'Votos retirados', 'Votos após exclusão'],
+      [CONTENT_W - 90, 30, 30, 30], rows3, { fontSize: 9 });
+    y += 3;
+
+    heading('4. Síntese', 10, 2, [69, 46, 134]);
+    paragraph('Foram identificados e retirados ' + p.removedInPauta + ' voto(s) do total de ' + p.totalClaimed +
+      ' votos registrados nesta pauta. Após as exclusões, permaneceram ' + p.totalNew + ' votos válidos.', 9.5);
+    y += 5;
+    doc.setDrawColor(230, 230, 230);
+    doc.line(MARGIN, y, PAGE_W - MARGIN, y);
+    y += 5;
+  }
+
+  ensureSpace(30);
+  heading('Síntese geral da assembleia', 13, 3);
+  const totalOriginalGeral = votingPautas.reduce((a, p) => a + p.totalClaimed, 0);
+  const totalRemovidoGeral = votingPautas.reduce((a, p) => a + p.removedInPauta, 0);
+  paragraph('Total de votos originalmente registrados em todas as pautas: ' + totalOriginalGeral + '.', 10);
+  paragraph('Total de votos retirados por constarem em relação(ões) de inadimplência: ' + totalRemovidoGeral + '.', 10);
+  paragraph('Pautas com ao menos um voto excluído: ' + pautasComRemocao.length + ' de ' + votingPautas.length + '.', 10);
+
+  return doc;
+}
+
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
@@ -792,6 +1054,7 @@ btnRun.addEventListener('click', async () => {
       Promise.all(inadFiles.map(f => extractPdfText(f)))
     ]);
     apuracaoText = txtApuracao;
+    condoNameDetected = detectCondoName(apuracaoText);
 
     statusEl.textContent = 'Processando pautas e cruzando unidades…';
     // Cada relatório de inadimplência é lido e interpretado separadamente, e as unidades
@@ -837,6 +1100,28 @@ btnRun.addEventListener('click', async () => {
     statusEl.textContent = 'Erro ao processar: ' + err.message;
   } finally {
     btnRun.disabled = false;
+  }
+});
+
+document.getElementById('btn-gerar-pdf').addEventListener('click', () => {
+  if (!parsedResult) return;
+  const btn = document.getElementById('btn-gerar-pdf');
+  if (!window.jspdf) {
+    alert('Não foi possível carregar o gerador de PDF (biblioteca não disponível). Tente recarregar a página.');
+    return;
+  }
+  btn.disabled = true;
+  const original = btn.textContent;
+  btn.textContent = 'Gerando…';
+  try {
+    const doc = buildConferenciaPdf(parsedResult, condoNameDetected);
+    doc.save('conferencia_votos.pdf');
+  } catch (err) {
+    console.error(err);
+    alert('Erro ao gerar o PDF: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = original;
   }
 });
 
