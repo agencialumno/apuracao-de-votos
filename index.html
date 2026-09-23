@@ -110,7 +110,14 @@
     margin-top: 10px; font-size: 12px;
     color: var(--green); word-break: break-all; font-weight: 700;
   }
+  .dropzone .filename div { margin-top: 2px; }
   .dropzone.filled { border-style: solid; border-color: var(--green); }
+  .clear-link {
+    display: block; margin: 6px auto 0; background: none; border: none;
+    font-family: inherit; font-size: 11.5px; color: var(--muted); text-decoration: underline;
+    cursor: pointer; padding: 2px;
+  }
+  .clear-link:hover { color: var(--red); }
 
   button.run {
     margin-top: 16px;
@@ -259,12 +266,15 @@
         <div class="hint">PDF com as pautas e os votos por unidade</div>
         <div class="filename" id="fn-apuracao"></div>
       </label>
-      <label class="dropzone" id="dz-inad">
-        <input type="file" id="file-inad" accept="application/pdf">
-        <div class="label">Relatório de inadimplentes</div>
-        <div class="hint">PDF com as unidades em débito</div>
-        <div class="filename" id="fn-inad"></div>
-      </label>
+      <div>
+        <label class="dropzone" id="dz-inad">
+          <input type="file" id="file-inad" accept="application/pdf" multiple>
+          <div class="label">Relatório(s) de inadimplentes</div>
+          <div class="hint">Pode enviar mais de um PDF, de fontes diferentes</div>
+          <div class="filename" id="fn-inad"></div>
+        </label>
+        <button type="button" class="clear-link" id="btn-clear-inad" style="display:none;">Limpar lista</button>
+      </div>
     </div>
     <button class="run" id="btn-run" disabled>Processar apuração</button>
     <div class="status" id="status"></div>
@@ -298,8 +308,8 @@
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
 let apuracaoText = null;
-let inadText = null;
 let parsedResult = null;
+let inadFiles = []; // acumula File objects de todos os PDFs de inadimplência enviados
 
 const fileApuracao = document.getElementById('file-apuracao');
 const fileInad = document.getElementById('file-inad');
@@ -307,6 +317,7 @@ const fnApuracao = document.getElementById('fn-apuracao');
 const fnInad = document.getElementById('fn-inad');
 const dzApuracao = document.getElementById('dz-apuracao');
 const dzInad = document.getElementById('dz-inad');
+const btnClearInad = document.getElementById('btn-clear-inad');
 const btnRun = document.getElementById('btn-run');
 const statusEl = document.getElementById('status');
 
@@ -338,50 +349,131 @@ async function extractPdfText(file) {
   return fullText;
 }
 
-function setFile(which, file) {
-  if (which === 'apuracao') {
-    fnApuracao.textContent = file.name;
-    dzApuracao.classList.add('filled');
-  } else {
-    fnInad.textContent = file.name;
-    dzInad.classList.add('filled');
-  }
+function setFileApuracao(file) {
+  fnApuracao.textContent = file.name;
+  dzApuracao.classList.add('filled');
   checkReady();
 }
 
-function checkReady() {
-  btnRun.disabled = !(fileApuracao.files[0] && fileInad.files[0]);
+function addInadFiles(fileList) {
+  const existingKeys = new Set(inadFiles.map(f => f.name + '|' + f.size));
+  for (const f of fileList) {
+    const key = f.name + '|' + f.size;
+    if (!existingKeys.has(key)) { inadFiles.push(f); existingKeys.add(key); }
+  }
+  renderInadFileList();
+  checkReady();
 }
 
-fileApuracao.addEventListener('change', () => { if (fileApuracao.files[0]) setFile('apuracao', fileApuracao.files[0]); });
-fileInad.addEventListener('change', () => { if (fileInad.files[0]) setFile('inad', fileInad.files[0]); });
+function renderInadFileList() {
+  if (inadFiles.length === 0) {
+    fnInad.innerHTML = '';
+    dzInad.classList.remove('filled');
+    btnClearInad.style.display = 'none';
+    return;
+  }
+  dzInad.classList.add('filled');
+  btnClearInad.style.display = 'block';
+  fnInad.innerHTML = inadFiles.length === 1
+    ? escapeHtml(inadFiles[0].name)
+    : inadFiles.length + ' arquivos: ' + inadFiles.map(f => '<div>• ' + escapeHtml(f.name) + '</div>').join('');
+}
 
-[dzApuracao, dzInad].forEach((dz, idx) => {
-  const input = idx === 0 ? fileApuracao : fileInad;
-  const which = idx === 0 ? 'apuracao' : 'inad';
-  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
-  dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
-  dz.addEventListener('drop', e => {
-    e.preventDefault();
-    dz.classList.remove('drag');
-    if (e.dataTransfer.files[0]) {
-      input.files = e.dataTransfer.files;
-      setFile(which, e.dataTransfer.files[0]);
-    }
-  });
+function checkReady() {
+  btnRun.disabled = !(fileApuracao.files[0] && inadFiles.length > 0);
+}
+
+fileApuracao.addEventListener('change', () => { if (fileApuracao.files[0]) setFileApuracao(fileApuracao.files[0]); });
+fileInad.addEventListener('change', () => {
+  if (fileInad.files.length) addInadFiles(fileInad.files);
+  fileInad.value = ''; // permite selecionar o mesmo arquivo de novo / abrir o diálogo outra vez do zero
+});
+btnClearInad.addEventListener('click', (e) => {
+  e.preventDefault();
+  inadFiles = [];
+  renderInadFileList();
+  checkReady();
+});
+
+dzApuracao.addEventListener('dragover', e => { e.preventDefault(); dzApuracao.classList.add('drag'); });
+dzApuracao.addEventListener('dragleave', () => dzApuracao.classList.remove('drag'));
+dzApuracao.addEventListener('drop', e => {
+  e.preventDefault();
+  dzApuracao.classList.remove('drag');
+  if (e.dataTransfer.files[0]) {
+    fileApuracao.files = e.dataTransfer.files;
+    setFileApuracao(e.dataTransfer.files[0]);
+  }
+});
+
+dzInad.addEventListener('dragover', e => { e.preventDefault(); dzInad.classList.add('drag'); });
+dzInad.addEventListener('dragleave', () => dzInad.classList.remove('drag'));
+dzInad.addEventListener('drop', e => {
+  e.preventDefault();
+  dzInad.classList.remove('drag');
+  if (e.dataTransfer.files.length) addInadFiles(e.dataTransfer.files);
 });
 
 // ---------- Parsing: inadimplentes ----------
-function parseInadimplentes(text) {
-  const re = /BLOCO\s+0*(\d+)\s+AP\s+0*(\d+)/gi;
+// Relatórios de inadimplência variam bastante de administradora pra administradora.
+// Testamos vários padrões de texto comuns (rótulos diferentes para bloco/torre e
+// apartamento/unidade, em qualquer ordem) e juntamos tudo que cada um encontrar.
+function parseInadimplentes(rawText) {
+  // Normaliza espaço/indentação espúria que o PDF.js às vezes gera no início de cada linha
+  const text = rawText.split(/\r?\n/).map(l => l.trim()).join('\n');
+
+  const blockWord = '(?:BLOCOS?|BLOC|BL|TORRE|EDIF[IÍ]CIOS?|EDIFICIOS?|ED|PR[EÉ]DIOS?|PREDIOS?)\\.?';
+  const unitWord = '(?:APARTAMENTOS?|APTOS?|APT|AP|UNIDADES?|UNID|UND|UN)\\.?';
+  const sep = '[ \\t\\-–—/.,:;()]{0,10}'; // só espaço/pontuação típica de separador, nunca atravessa linha
+
   const set = new Map(); // key -> {bloco, apto}
-  let m;
-  while ((m = re.exec(text)) !== null) {
-    const bloco = m[1];
-    const apto = m[2];
-    const key = bloco + '-' + apto;
-    set.set(key, { bloco, apto });
+
+  // Padrão A/B: bloco+apto com palavra-chave nos dois lados, em qualquer ordem
+  // (ex: "BLOCO 01 AP 0206", "Apto 206 - Bloco 1").
+  const patterns = [
+    { re: new RegExp(blockWord + '\\s*0*(\\d+)' + sep + unitWord + '\\s*0*(\\d+)', 'gi'), order: 'block-first' },
+    { re: new RegExp(unitWord + '\\s*0*(\\d+)' + sep + blockWord + '\\s*0*(\\d+)', 'gi'), order: 'unit-first' },
+  ];
+  for (const { re, order } of patterns) {
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      let bloco, apto;
+      if (order === 'block-first') { bloco = m[1]; apto = m[2]; }
+      else { apto = m[1]; bloco = m[2]; }
+      const key = bloco + '-' + apto;
+      if (!set.has(key)) set.set(key, { bloco, apto });
+    }
   }
+
+  // Padrão C: "APTO BLOCO - Nome" no início da linha, sem palavra-chave nenhuma
+  // (ex: "304 1 - Jefferson Oscar De Souza").
+  const reC = /^(\d{2,4})\s+(\d{1,3})\s*[-–—]\s*[A-ZÀ-Ü]/gm;
+  let mc;
+  while ((mc = reC.exec(text)) !== null) {
+    const apto = mc[1], bloco = mc[2];
+    const key = bloco + '-' + apto;
+    if (!set.has(key)) set.set(key, { bloco, apto });
+  }
+
+  // Padrão D: relatórios agrupados por bloco, onde um cabeçalho tipo "BLOCO 01 UNIDADE:"
+  // (em qualquer ordem) define o bloco corrente, e cada linha seguinte que começa com o
+  // número do apartamento e contém "mail" (do rótulo de e-mail do condômino) é uma unidade.
+  const blockHeaderRe = /(?:UNIDADE\s*:\s*)?BLOCO\s*0*(\d+)\b(?:\s*UNIDADE\s*:)?/i;
+  const unitLineRe = /^(\d{1,4})\s+\S.*mail/i;
+  let currentBloco = null;
+  for (const line of text.split('\n')) {
+    const bm = line.match(blockHeaderRe);
+    if (bm) { currentBloco = bm[1]; continue; }
+    if (currentBloco !== null) {
+      const um = line.match(unitLineRe);
+      if (um) {
+        const apto = um[1];
+        const key = currentBloco + '-' + apto;
+        if (!set.has(key)) set.set(key, { bloco: currentBloco, apto });
+      }
+    }
+  }
+
   return set;
 }
 
@@ -693,23 +785,33 @@ btnRun.addEventListener('click', async () => {
   statusEl.classList.remove('err');
   statusEl.textContent = 'Lendo PDFs…';
   try {
-    const [txtApuracao, txtInad] = await Promise.all([
+    const [txtApuracao, inadTexts] = await Promise.all([
       extractPdfText(fileApuracao.files[0]),
-      extractPdfText(fileInad.files[0])
+      Promise.all(inadFiles.map(f => extractPdfText(f)))
     ]);
     apuracaoText = txtApuracao;
-    inadText = txtInad;
 
     statusEl.textContent = 'Processando pautas e cruzando unidades…';
-    const inadSet = parseInadimplentes(inadText);
+    // Cada relatório de inadimplência é lido e interpretado separadamente, e as unidades
+    // encontradas em todos eles são somadas num único conjunto (sem duplicar).
+    const inadSet = new Map();
+    const perFileCounts = [];
+    for (let i = 0; i < inadTexts.length; i++) {
+      const partial = parseInadimplentes(inadTexts[i]);
+      perFileCounts.push({ name: inadFiles[i].name, count: partial.size });
+      for (const [key, u] of partial.entries()) inadSet.set(key, u);
+    }
     const pautas = parseApuracao(apuracaoText);
 
     if (inadSet.size === 0) {
       statusEl.classList.add('err');
-      statusEl.textContent = 'Não foi possível identificar unidades inadimplentes no PDF (verifique se é o relatório correto).';
+      statusEl.textContent = inadFiles.length > 1
+        ? 'Não foi possível identificar unidades inadimplentes em nenhum dos ' + inadFiles.length + ' PDFs enviados. O formato pode não ser reconhecido — me manda o arquivo que eu ajusto o leitor.'
+        : 'Não foi possível identificar unidades inadimplentes nesse PDF. O formato pode não ser reconhecido — me manda o arquivo que eu ajusto o leitor.';
       btnRun.disabled = false;
       return;
     }
+    const emptyFiles = perFileCounts.filter(f => f.count === 0);
     const votingPautasCount = pautas.filter(p => !p.informative).length;
     if (votingPautasCount === 0) {
       statusEl.classList.add('err');
@@ -721,7 +823,11 @@ btnRun.addEventListener('click', async () => {
     const crossInfo = crossReference(pautas, inadSet);
     parsedResult = pautas;
     renderResults(pautas, inadSet, crossInfo);
-    statusEl.textContent = 'Concluído. ' + pautas.filter(p=>!p.informative).length + ' pauta(s) de votação processada(s).';
+    let statusMsg = 'Concluído. ' + pautas.filter(p=>!p.informative).length + ' pauta(s) de votação processada(s).';
+    if (emptyFiles.length) {
+      statusMsg += ' Atenção: não achei unidades em "' + emptyFiles.map(f => f.name).join('", "') + '" — confira se é o relatório certo ou se o formato não é reconhecido.';
+    }
+    statusEl.textContent = statusMsg;
     document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
   } catch (err) {
     console.error(err);
