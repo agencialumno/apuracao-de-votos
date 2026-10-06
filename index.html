@@ -321,7 +321,7 @@
     <div class="card pdf-cta">
       <div class="pdf-cta-text">
         <h2 style="margin-bottom:4px;">Relatório de conferência para a ata</h2>
-        <p class="sub" style="margin:0;">PDF com as unidades retiradas, o detalhamento dos débitos e o impacto no resultado.</p>
+        <p class="sub" style="margin:0;">PDF com as unidades retiradas, o detalhamento dos débitos e o impacto no resultado — pauta por pauta, num único arquivo.</p>
       </div>
       <button class="btn-pdf" id="btn-gerar-pdf">📄 Gerar PDF de Conferência de Votos</button>
     </div>
@@ -558,8 +558,64 @@ function parseInadimplentes(rawText) {
     flush();
   }
 
+  // Padrão E: relatório tabular direto da administradora (ex: 'CONQUISTA JARDIM
+  // GUADALUPE'), com uma linha de detalhe por débito mensal ('BLOCO 1 102   10/05/25   ...')
+  // e uma linha de SUBTOTAL por unidade ('BLOCO 1 102   4102   R$ 5.985,22   ...') — essa
+  // linha de subtotal é o único anchor confiável porque o nome do titular pode quebrar em
+  // duas linhas no PDF (célula estreita). Débitos (datas de vencimento) vêm das linhas de
+  // detalhe acumuladas até o subtotal fechar a unidade.
+  {
+    const subtotalRe = /^BLOCO\s*0*(\d+)\s+(\d{2,4})\s+\d+\s+R\$/;
+    const detailRe = /^BLOCO\s*0*(\d+)\s+(\d{2,4})\s+(\d{2}\/\d{2}\/\d{2,4})\s+/;
+    const pending = new Map();
+    for (const line of lines) {
+      const dm = line.match(detailRe);
+      if (dm) {
+        const key = dm[1] + '-' + dm[2];
+        if (!pending.has(key)) pending.set(key, []);
+        pending.get(key).push(dm[3]);
+        continue;
+      }
+      const sm = line.match(subtotalRe);
+      if (sm) {
+        const bloco = sm[1], apto = sm[2];
+        const key = bloco + '-' + apto;
+        const vencs = pending.get(key) || [];
+        addUnit(bloco, apto, null, vencs.map(v => ({ competencia: null, vencimento: v })));
+        pending.delete(key);
+      }
+    }
+  }
+
+  // Padrão F: formato 'LLZ GARANTIDORA' — cabeçalho 'BB - AAAA' (bloco - apto) numa linha
+  // isolada, sem palavra-chave, seguido de linhas de débito
+  // ('documento   Original Mês - Ano   dd/mm/aaaa   -   R$ valor') até a linha 'Subtotal'.
+  {
+    const headerRe = /^(\d{1,2})\s*-\s*(\d{2,4})$/;
+    const debitoRe = /^\S+\s+Original\s+(\w{3}\s*-\s*\d{4})\s+(\d{2}\/\d{2}\/\d{4})\s+-\s+R\$/i;
+    let currentKey = null;
+    let currentDebitos = [];
+    function flush() {
+      if (currentKey) {
+        const [bloco, apto] = currentKey.split('-');
+        addUnit(bloco, apto, null, currentDebitos);
+      }
+      currentKey = null;
+      currentDebitos = [];
+    }
+    for (const line of lines) {
+      const hm = line.match(headerRe);
+      if (hm) { flush(); currentKey = hm[1] + '-' + hm[2]; continue; }
+      if (/^Subtotal\b/i.test(line)) { flush(); continue; }
+      const dmF = line.match(debitoRe);
+      if (dmF && currentKey) currentDebitos.push({ competencia: dmF[1], vencimento: dmF[2] });
+    }
+    flush();
+  }
+
   return set;
 }
+
 
 // ---------- Parsing: apuração ----------
 // Row layout is "OptionName Qty Unit,Unit,...,Unit Resultado%", but when a unit list
